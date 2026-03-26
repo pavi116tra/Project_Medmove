@@ -1,4 +1,4 @@
-const { Ambulance, Booking, Provider, User } = require('../models');
+const { Ambulance, Booking, Provider, User, ProviderEarning, AmbulanceSlot } = require('../models');
 
 // @desc    Get all ambulances for a provider
 exports.getAmbulances = async (req, res) => {
@@ -99,10 +99,13 @@ exports.getDashboardStats = async (req, res) => {
             where: { provider_id: req.user.id, status: 'pending' } 
         });
         
-        const completed_bookings = await Booking.findAll({
-            where: { provider_id: req.user.id, status: 'completed' }
+        const provider = await Provider.findByPk(req.user.id);
+        
+        // Get total earnings from ProviderEarning table
+        const totalEarningsData = await ProviderEarning.sum('total_fare', {
+            where: { provider_id: req.user.id }
         });
-        const total_earnings = completed_bookings.reduce((sum, b) => sum + b.amount, 0);
+        const total_earnings = totalEarningsData || 0;
 
         res.json({
             success: true,
@@ -182,3 +185,41 @@ exports.rejectBooking = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// @desc    Complete booking (Reset ambulance status and release slot)
+exports.completeTrip = async (req, res) => {
+    try {
+        const { id } = req.params; // Using id as per current route
+        const providerId = req.user.id;
+
+        const booking = await Booking.findOne({
+            where: { id, provider_id: providerId }
+        });
+
+        if (!booking) return res.status(404).json({ success: false, message: 'Booking not found' });
+
+        await booking.update({ status: 'completed' });
+
+        await ProviderEarning.update(
+            { trip_status: 'completed' },
+            { where: { booking_id: id } }
+        );
+
+        await AmbulanceSlot.update(
+            { status: 'released' },
+            { where: { booking_id: id } }
+        );
+
+        await Ambulance.update(
+            { status: 'available' },
+            { where: { id: booking.ambulance_id } }
+        );
+
+        res.json({ success: true, message: 'Trip marked as completed' });
+    } catch (err) {
+        console.error('Complete Trip Error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = exports;

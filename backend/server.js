@@ -15,9 +15,11 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 const providerRoutes = require('./routes/providerRoutes');
 const ambulanceRoutes = require('./routes/ambulanceRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/provider', providerRoutes);
 app.use('/api/ambulances', ambulanceRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
@@ -29,15 +31,14 @@ const PORT = process.env.PORT || 5000;
 // Sync database and start server
 sequelize.sync({ alter: true })
     .then(() => {
-        console.log('Database synced successfully');
-        if (require.main === module) {
-            app.listen(PORT, () => {
-                console.log(`Server is running on port ${PORT}`);
-            });
-        }
+        console.log('✅ Database synced successfully');
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`🚀 Server is running on http://localhost:${PORT}`);
+            console.log(`📡 Network access on http://0.0.0.0:${PORT}`);
+        });
     })
     .catch(err => {
-        console.error('Error syncing database:', err);
+        console.error('❌ Error syncing database:', err);
     });
 
 module.exports = app;

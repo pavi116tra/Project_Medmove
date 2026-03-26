@@ -1,4 +1,4 @@
-const { Ambulance, Provider } = require('../models');
+const { Ambulance, Provider, AmbulanceSlot } = require('../models');
 
 // Mock Distance Calculator
 const calculateDistance = (pickup, drop) => {
@@ -69,11 +69,30 @@ exports.searchAmbulances = async (req, res) => {
       order: [['base_charge', 'ASC']]
     });
 
-    console.log(`✅ Total ambulances found: ${ambulances.length}`);
+    // STEP: Filter out blocked slots
+    const { date, time } = req.query;
+    const availableAmbulances = [];
+
+    for (const amb of ambulances) {
+      const blockedSlot = await AmbulanceSlot.findOne({
+        where: {
+          ambulance_id: amb.id,
+          booking_date: date,
+          booking_time: time,
+          status: 'blocked'
+        }
+      });
+
+      if (!blockedSlot) {
+        availableAmbulances.push(amb);
+      }
+    }
+
+    console.log(`✅ Total ambulances found: ${availableAmbulances.length}`);
 
     const distance_km = calculateDistance(pickup, drop);
 
-    const results = ambulances.map(amb => {
+    const results = availableAmbulances.map(amb => {
       const distance_charge = distance_km * amb.price_per_km;
       const estimated_total = amb.base_charge + distance_charge;
 

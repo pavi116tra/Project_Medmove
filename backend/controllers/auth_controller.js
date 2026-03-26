@@ -125,8 +125,7 @@ exports.registerProvider = async (req, res) => {
     try {
         const { 
             company_name, owner_name, phone, email, password, 
-            address, service_area, license_number, bank_account, 
-            ifsc_code, bank_name, account_holder_name 
+            address, service_area, license_number
         } = req.body;
 
         const providerExists = await Provider.findOne({ where: { phone } });
@@ -155,10 +154,6 @@ exports.registerProvider = async (req, res) => {
             license_number,
             license_doc_url: license_doc,
             id_proof_url: id_proof,
-            bank_account,
-            ifsc_code,
-            bank_name,
-            account_holder_name,
             is_approved: false
         });
 

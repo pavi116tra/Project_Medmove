@@ -130,14 +130,57 @@
   gap: 1.5rem;
 }
 
-.earnings-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+.earnings-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
-.earnings-card h3 { color: #666; margin-bottom: 0.5rem; }
-.amount { font-size: 2.5rem; font-weight: 800; color: #b71c1c; margin: 0; }
-.earnings-details { margin-top: 1rem; color: #888; font-size: 0.9rem; }
+.earn-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-top: 4px solid #b71c1c;
+}
+
+.earn-card span { color: #666; font-size: 0.9rem; font-weight: 500; }
+.earn-card strong { font-size: 1.8rem; color: #b71c1c; }
+
+.earnings-table {
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.earnings-table th, .earnings-table td {
+  padding: 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.earnings-table th {
+  background: #f8f9fa;
+  color: #666;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-pill.confirmed { background: #fff3cd; color: #856404; }
+.status-pill.completed { background: #d1e7dd; color: #0f5132; }

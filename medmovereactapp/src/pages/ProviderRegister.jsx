@@ -16,11 +16,7 @@ const ProviderRegister = () => {
         address: '',
         service_area: 'Chennai',
         license_number: '',
-        bank_account: '',
-        confirm_bank_account: '',
-        ifsc_code: '',
-        bank_name: '',
-        account_holder_name: ''
+        license_number: ''
     });
 
     const [files, setFiles] = useState({
@@ -91,11 +87,6 @@ const ProviderRegister = () => {
         e.preventDefault();
         setError('');
 
-        if (formData.bank_account !== formData.confirm_bank_account) {
-            setError('Bank account numbers do not match');
-            return;
-        }
-
         const data = new FormData();
         Object.keys(formData).forEach(key => data.append(key, formData[key]));
         if (files.license_doc) data.append('license_doc', files.license_doc);
@@ -139,13 +130,9 @@ const ProviderRegister = () => {
                         <div className="step-dot">2</div>
                         Documents
                     </div>
-                    <div className={`step-item ${step >= 3 ? 'active' : ''}`}>
-                        <div className="step-dot">3</div>
-                        Bank
-                    </div>
                 </div>
 
-                <h3 style={{marginBottom: '20px', textAlign: 'center'}}>Step {step} of 3</h3>
+                <h3 style={{marginBottom: '20px', textAlign: 'center'}}>Step {step} of 2</h3>
 
                 {error && <div style={{color: '#CC0000', marginBottom: '20px', padding: '10px', background: '#FFEEEE', borderRadius: '6px'}}>{error}</div>}
                 {devOtp && (
@@ -191,20 +178,6 @@ const ProviderRegister = () => {
                         <div className="form-group"><label>License Number *</label><input name="license_number" className="form-control" onChange={handleChange} value={formData.license_number} required /></div>
                         <div className="form-group"><label>Upload License Document *</label><input name="license_doc" type="file" className="form-control" onChange={handleFileChange} required /></div>
                         <div className="form-group"><label>Upload ID Proof *</label><input name="id_proof" type="file" className="form-control" onChange={handleFileChange} required /></div>
-                        <div style={{display: 'flex', gap: '15px'}}>
-                            <button type="button" className="auth-btn" style={{background: '#333'}} onClick={prevStep}>← Back</button>
-                            <button type="button" className="auth-btn" onClick={nextStep}>Next Step →</button>
-                        </div>
-                    </>
-                )}
-
-                {step === 3 && (
-                    <>
-                        <div className="form-group"><label>Account Holder Name *</label><input name="account_holder_name" className="form-control" onChange={handleChange} value={formData.account_holder_name} required /></div>
-                        <div className="form-group"><label>Bank Account Number *</label><input name="bank_account" className="form-control" onChange={handleChange} value={formData.bank_account} required /></div>
-                        <div className="form-group"><label>Confirm Account Number *</label><input name="confirm_bank_account" className="form-control" onChange={handleChange} value={formData.confirm_bank_account} required /></div>
-                        <div className="form-group"><label>IFSC Code *</label><input name="ifsc_code" className="form-control" onChange={handleChange} value={formData.ifsc_code} required /></div>
-                        <div className="form-group"><label>Bank Name</label><input name="bank_name" className="form-control" placeholder="Auto-filled" onChange={handleChange} value={formData.bank_name} /></div>
                         <div style={{display: 'flex', gap: '15px'}}>
                             <button type="button" className="auth-btn" style={{background: '#333'}} onClick={prevStep}>← Back</button>
                             <button type="button" className="auth-btn" onClick={handleSubmit}>Submit Application</button>

@@ -12,6 +12,7 @@ const ProviderDashboard = () => {
   const [stats, setStats] = useState({});
   const [ambulances, setAmbulances] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [earnings, setEarnings] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -30,9 +31,13 @@ const ProviderDashboard = () => {
       const ambData = await ambRes.json();
       if (ambData.success) setAmbulances(ambData.ambulances);
 
-      const bookRes = await fetch('http://localhost:5000/api/provider/bookings?status=pending', { headers });
+      const bookRes = await fetch('http://localhost:5000/api/provider/bookings', { headers });
       const bookData = await bookRes.json();
       if (bookData.success) setBookings(bookData.bookings);
+
+      const earnRes = await fetch('http://localhost:5000/api/provider/earnings', { headers });
+      const earnData = await earnRes.json();
+      if (earnData.success) setEarnings(earnData.earnings);
 
       setLoading(false);
     } catch (err) {
@@ -47,6 +52,7 @@ const ProviderDashboard = () => {
     } else {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const handleAcceptBooking = async (id) => {
@@ -72,6 +78,19 @@ const ProviderDashboard = () => {
       if (data.success) fetchData();
     } catch (err) {
       console.error('Reject Booking Error:', err);
+    }
+  };
+
+  const handleCompleteBooking = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/provider/bookings/${id}/complete`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.success) fetchData();
+    } catch (err) {
+      console.error('Complete Booking Error:', err);
     }
   };
 
@@ -161,23 +180,58 @@ const ProviderDashboard = () => {
                     booking={book} 
                     onAccept={handleAcceptBooking}
                     onReject={handleRejectBooking}
+                    onComplete={handleCompleteBooking}
                   />
                 ))}
-                {bookings.length === 0 && <p className="empty">No pending requests.</p>}
+                {bookings.length === 0 && <p className="empty">No booking requests found.</p>}
               </div>
             </div>
           )}
 
           {activeTab === 'earnings' && (
             <div className="earnings-section">
-              <h2>Earnings Overview</h2>
-              <div className="earnings-card">
-                <h3>Total Revenue</h3>
-                <p className="amount">₹{stats.total_earnings || 0}</p>
-                <div className="earnings-details">
-                  <p>Payouts are processed every Monday.</p>
+              <div className="earnings-summary">
+                <div className="earn-card">
+                  <span>💰 Total Earnings</span>
+                  <strong>₹{stats.total_earnings || 0}</strong>
+                </div>
+                <div className="earn-card">
+                  <span>✅ Completed Trips</span>
+                  <strong>{earnings.filter(e => e.trip_status === 'completed').length}</strong>
+                </div>
+                <div className="earn-card">
+                  <span>📋 Total Bookings</span>
+                  <strong>{earnings.length}</strong>
                 </div>
               </div>
+
+              <table className="earnings-table">
+                <thead>
+                  <tr>
+                    <th>Booking ID</th>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Route</th>
+                    <th>Vehicle</th>
+                    <th>Fare</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {earnings.map(e => (
+                    <tr key={e.id}>
+                      <td>#MED{String(e.booking_id).padStart(4,'0')}</td>
+                      <td>{e.booking_date}</td>
+                      <td>{e.booked_by_name}<br/><small>{e.booked_by_phone}</small></td>
+                      <td>{e.pickup_location} → {e.drop_location}</td>
+                      <td>{e.vehicle_number}</td>
+                      <td>₹{e.total_fare}</td>
+                      <td><span className={`status-pill ${e.trip_status}`}>{e.trip_status}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {earnings.length === 0 && <p className="empty">No earnings data available yet.</p>}
             </div>
           )}
         </div>

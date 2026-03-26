@@ -1,100 +1,145 @@
-.booking-card {
+.booking-card.detail-card {
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   border: 1px solid #eee;
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: transform 0.3s;
 }
 
-.booking-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: #b71c1c;
+.booking-card.detail-card:hover {
+  transform: translateY(-5px);
 }
 
 .booking-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.8rem;
 }
 
-.request-tag {
-  color: #b71c1c;
-  font-weight: 700;
-  font-size: 0.8rem;
-  animation: pulse 2s infinite;
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
+.status-badge.pending { background: #e3f2fd; color: #1976d2; }
+.status-badge.confirmed { background: #fff3cd; color: #856404; }
+.status-badge.completed { background: #e8f5e9; color: #2e7d32; }
 
 .booking-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #888;
+}
+
+.booking-sections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.card-section h4 {
+  font-size: 0.8rem;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.card-section p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0.2rem 0;
+}
+
+.tags-row {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.tag-pill {
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.card-footer-info {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fare-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fare-display span:first-child {
   color: #666;
   font-weight: 600;
 }
 
-.booking-body {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+.fare-amt {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #b71c1c;
 }
 
-.booking-body div {
+.complete-btn.full-width {
+  width: 100%;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.complete-btn.full-width:hover {
+  background: #1b5e20;
+}
+
+.completed-label {
+  text-align: center;
+  color: #2e7d32;
+  font-weight: 700;
   font-size: 0.9rem;
+  background: #e8f5e9;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .booking-actions {
   display: flex;
-  gap: 1rem;
+  gap: 10px;
 }
 
-.accept-btn {
-  background: #2e7d32;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  flex: 2;
-  transition: background 0.3s;
-}
-
-.accept-btn:hover { background: #1b5e20; }
-
-.reject-btn {
-  background: #f5f5f5;
-  color: #666;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+.accept-btn, .reject-btn {
   flex: 1;
-  transition: all 0.3s;
-}
-
-.reject-btn:hover { background: #e0e0e0; color: #c62828; }
-
-.booking-status-footer {
-  text-align: center;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
+  border: none;
   font-weight: 700;
-  font-size: 0.8rem;
+  cursor: pointer;
 }
 
-.booking-status-footer.confirmed { background: #e8f5e9; color: #2e7d32; }
-.booking-status-footer.rejected { background: #ffebee; color: #c62828; }
-.booking-status-footer.completed { background: #f3e5f5; color: #7b1fa2; }
+.accept-btn { background: #2e7d32; color: white; }
+.reject-btn { background: #f5f5f5; color: #666; }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SearchResults.css';
+import BookingConfirmModal from '../Components/BookingConfirmModal';
 
 const SearchResults = () => {
   const location = useLocation();
@@ -15,12 +16,17 @@ const SearchResults = () => {
   const [distance, setDistance] = useState(0);
   const [filterType, setFilterType] = useState(type?.toLowerCase() || 'all');
 
+  // Modal State
+  const [showModal, setShowModal] = useState(false);
+  const [selectedAmbulance, setSelectedAmbulance] = useState(null);
+
   useEffect(() => {
     if (!pickup || !drop) {
       navigate('/');
       return;
     }
     fetchAmbulances();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterType]);
 
   const fetchAmbulances = async () => {
@@ -29,7 +35,7 @@ const SearchResults = () => {
       setError(null);
 
       const response = await axios.get(
-        `http://localhost:5000/api/ambulances/search`,
+        `http://127.0.0.1:5000/api/ambulances/search`,
         {
           params: { pickup, drop, date, time, type: filterType }
         }
@@ -48,8 +54,19 @@ const SearchResults = () => {
   };
 
   const handleBookNow = (ambulance) => {
-    navigate('/booking', {
-      state: { ambulance, pickup, drop, date, time, distance_km: distance }
+    setSelectedAmbulance(ambulance);
+    setShowModal(true);
+  };
+
+  const confirmBooking = (patientDetails) => {
+    setShowModal(false);
+    navigate('/payment', {
+      state: { 
+        ambulance: selectedAmbulance, 
+        pickup, drop, date, time, 
+        distance_km: distance,
+        patientDetails
+      }
     });
   };
 
@@ -75,6 +92,17 @@ const SearchResults = () => {
 
   return (
     <div className="search-results-page">
+      {showModal && (
+        <BookingConfirmModal 
+          ambulance={selectedAmbulance}
+          pickup={pickup}
+          drop={drop}
+          date={date}
+          time={time}
+          onConfirm={confirmBooking}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
       <div className="summary-bar">
         <div className="route-info">
           <span className="location">📍 {pickup}</span>

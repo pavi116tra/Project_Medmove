@@ -11,6 +11,8 @@ import ProviderDashboard from '../pages/ProviderDashboard';
 import AddAmbulance from '../pages/AddAmbulance';
 import EditAmbulance from '../pages/EditAmbulance';
 import SearchResults from '../pages/SearchResults';
+import Payment from '../pages/Payment';
+import BookingSuccess from '../pages/BookingSuccess';
 
 const Routing = () => {
   return (
@@ -27,6 +29,8 @@ const Routing = () => {
         <Route path="/provider/add-ambulance" element={<AddAmbulance />} />
         <Route path="/provider/edit-ambulance/:id" element={<EditAmbulance />} />
         <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/booking-success" element={<BookingSuccess />} />
       </Routes>
     </BrowserRouter>
   );

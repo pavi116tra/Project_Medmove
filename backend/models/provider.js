@@ -25,11 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     license_number: DataTypes.STRING,
     license_doc_url: DataTypes.STRING,
     id_proof_url: DataTypes.STRING,
-    bank_account: DataTypes.STRING,
-    ifsc_code: DataTypes.STRING,
-    bank_name: DataTypes.STRING,
-    account_holder_name: DataTypes.STRING,
-    is_approved: DataTypes.BOOLEAN
+    is_approved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'Provider',
