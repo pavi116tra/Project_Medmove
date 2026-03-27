@@ -1,0 +1,191 @@
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.auth-card-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .auth-card-container {
+        flex-direction: column;
+    }
+}
+
+.role-card {
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.role-card:hover {
+    border-color: #CC0000;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(204, 0, 0, 0.1);
+}
+
+.role-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.role-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.role-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.auth-btn {
+    background: #CC0000;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.auth-btn:hover {
+    background: #990000;
+}
+
+.auth-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Form Styles */
+.form-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #CC0000;
+    outline: none;
+}
+
+.otp-box {
+    display: flex;
+    gap: 10px;
+}
+
+.otp-verify-btn {
+    padding: 0 15px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.verify-tick {
+    color: green;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 38px;
+    cursor: pointer;
+}
+
+.step-wizard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.step-wizard::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #eee;
+    z-index: 1;
+}
+
+.step-item {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+}
+
+.step-item.active {
+    color: #CC0000;
+}
+
+.step-dot {
+    width: 30px;
+    height: 30px;
+    background: #eee;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 5px;
+}
+
+.active .step-dot {
+    background: #CC0000;
+    color: white;
+}
