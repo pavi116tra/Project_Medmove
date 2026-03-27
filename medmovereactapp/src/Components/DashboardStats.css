@@ -1,6 +1,5 @@
 .stats-container {
   display: grid;
-<<<<<<< HEAD
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin: 24px 32px;
@@ -58,54 +57,3 @@
     margin: 16px;
   }
 }
-=======
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-}
-
-.stat-icon {
-  font-size: 2rem;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-}
-
-.stat-info h3 {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
-}
-
-.stat-info p {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: #b71c1c;
-}
-
-.stat-icon.ambulance { background: #ffebee; }
-.stat-icon.available { background: #e8f5e9; }
-.stat-icon.pending { background: #fff3e0; }
-.stat-icon.earnings { background: #e3f2fd; }
->>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c

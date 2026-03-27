@@ -60,11 +60,7 @@
 .h5-img img {
     width: 100%;
     height: 100%;
-<<<<<<< HEAD
     object-fit: fill;
-=======
-    object-fit: cover;
->>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .h5-tools {

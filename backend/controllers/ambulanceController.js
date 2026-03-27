@@ -54,8 +54,7 @@ exports.searchAmbulances = async (req, res) => {
     }
 
     // Match by base_location (near pickup)
-    // In a real app, we'd use geolocation, but for now matching by city name
-    whereConditions.base_location = pickup.toLowerCase();
+    whereConditions.base_location = pickup.trim().toLowerCase();
 
     const ambulances = await Ambulance.findAll({
       where: whereConditions,
@@ -69,22 +68,27 @@ exports.searchAmbulances = async (req, res) => {
       order: [['base_charge', 'ASC']]
     });
 
-    // STEP: Filter out blocked slots
+    // STEP: Filter out blocked slots (only if date and time are provided)
     const { date, time } = req.query;
     const availableAmbulances = [];
 
-    for (const amb of ambulances) {
-      const blockedSlot = await AmbulanceSlot.findOne({
-        where: {
-          ambulance_id: amb.id,
-          booking_date: date,
-          booking_time: time,
-          status: 'blocked'
-        }
-      });
+    if (!date || !time || date === "" || time === "") {
+      // If no specific date/time, show all currently available ambulances
+      availableAmbulances.push(...ambulances);
+    } else {
+      for (const amb of ambulances) {
+        const blockedSlot = await AmbulanceSlot.findOne({
+          where: {
+            ambulance_id: amb.id,
+            booking_date: date,
+            booking_time: time,
+            status: 'blocked'
+          }
+        });
 
-      if (!blockedSlot) {
-        availableAmbulances.push(amb);
+        if (!blockedSlot) {
+          availableAmbulances.push(amb);
+        }
       }
     }
 

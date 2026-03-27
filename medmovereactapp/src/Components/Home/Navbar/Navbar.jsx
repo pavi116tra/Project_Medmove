@@ -1,80 +1,78 @@
-import React, { useState, useContext } from 'react'
-<<<<<<< HEAD
-import { Link, useNavigate } from 'react-router-dom'
-import './Navbar.css'
-import medmoveimg from "../../../Assest/medmove_new_logo.svg"
-=======
-import { Link } from 'react-router-dom'
-import './Navbar.css'
-import medmoveimg from "../../../Assest/Screenshot 2025-07-19 151646 copy.png"
->>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
-import { AuthContext } from '../../../context/AuthContext'
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
+import medmoveimg from "../../../Assest/medmove_new_logo.svg";
+import { AuthContext } from '../../../context/AuthContext';
+import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard } from 'lucide-react';
 
 const Navbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const { isAuthenticated, role, user, provider, logout } = useContext(AuthContext);
-<<<<<<< HEAD
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate('/');
+    setIsMobileMenuOpen(false);
+    setShowDropdown(false);
   };
-=======
->>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
+
+  const getName = () => {
+    if (role === 'provider') return provider?.company_name || 'Provider';
+    return user?.name || 'User';
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <img src={medmoveimg} alt="MedMove Logo" />
+        <Link to="/" className="navbar-logo" onClick={() => setIsMobileMenuOpen(false)}>
+          <img src={medmoveimg} alt="MedMove" />
         </Link>
-
-        <button 
-          className="mobile-menu-icon" 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <div className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}></div>
+        
+        {/* Mobile Menu Toggle */}
+        <button className="mobile-menu-icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X size={28} className="active" /> : <div className="hamburger" />}
         </button>
 
         <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          {!isAuthenticated ? (
-            <>
-              <Link to="/login" className="nav-link">Login</Link>
-              
-              <div 
-                className="nav-item-dropdown"
-                onMouseEnter={() => setShowDropdown(true)}
-                onMouseLeave={() => setShowDropdown(false)}
-              >
-                <Link to="/register" className="nav-link dropdown-toggle">Register</Link>
-                {showDropdown && (
-                  <div className="dropdown-menu">
-                    <Link to="/register/user" className="dropdown-item">Register as User</Link>
-                    <Link to="/register/provider" className="dropdown-item">Register as Provider</Link>
-                  </div>
-                )}
+          <Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          <Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+          <a href="#footer" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
+
+          {isAuthenticated ? (
+            <div className="user-profile-section">
+              <div className="profile-trigger" onClick={() => setShowDropdown(!showDropdown)}>
+                <div className="avatar-circle">
+                  {getName().charAt(0).toUpperCase()}
+                </div>
+                <span className="user-name">{getName()}</span>
+                <ChevronDown size={16} className={showDropdown ? 'rotate' : ''} />
               </div>
-            </>
+
+              {showDropdown && (
+                <div className="profile-dropdown">
+                  {role === 'provider' && (
+                    <Link to="/provider/dashboard" className="dropdown-item" onClick={() => setShowDropdown(false)}>
+                      <LayoutDashboard size={18} /> Dashboard
+                    </Link>
+                  )}
+                  <button onClick={handleLogout} className="dropdown-item logout-item">
+                    <LogOut size={18} /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
-            <>
-              <span className="nav-link">Hello, {user?.full_name || provider?.company_name}</span>
-<<<<<<< HEAD
-              <button onClick={handleLogout} className="nav-link" style={{background: 'none', border: 'none', cursor: 'pointer'}}>Logout</button>
-=======
-              <button onClick={logout} className="nav-link" style={{background: 'none', border: 'none', cursor: 'pointer'}}>Logout</button>
->>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
-            </>
+            <div className="auth-buttons">
+              <Link to="/login" className="login-btn" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+              <Link to="/register" className="register-btn" onClick={() => setIsMobileMenuOpen(false)}>Register</Link>
+            </div>
           )}
-
-
-          <a href="#footer" className="nav-link">Contact</a>
-          <Link to="/about" className="nav-link">About Us</Link>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
