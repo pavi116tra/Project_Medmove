@@ -13,7 +13,10 @@ import EditAmbulance from '../pages/EditAmbulance';
 import SearchResults from '../pages/SearchResults';
 import Payment from '../pages/Payment';
 import BookingSuccess from '../pages/BookingSuccess';
+<<<<<<< HEAD
 import AboutUs from '../pages/AboutUs';
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 
 const Routing = () => {
   return (
@@ -32,7 +35,10 @@ const Routing = () => {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/booking-success" element={<BookingSuccess />} />
+<<<<<<< HEAD
         <Route path="/about" element={<AboutUs />} />
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
       </Routes>
     </BrowserRouter>
   );

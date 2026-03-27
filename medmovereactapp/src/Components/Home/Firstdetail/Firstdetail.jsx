@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import LoginModal from "../../LoginModal/LoginModal";
+=======
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 import "./Firstdetail.css";
 import workhome from "../../../Assest/work-from-home.png";
 import calender from "../../../Assest/calendar.png";
@@ -11,8 +16,11 @@ import search from "../../../Assest/search-interface-symbol.png";
 
 const Firstdetail = () => {
   const navigate = useNavigate();
+<<<<<<< HEAD
   const { isAuthenticated } = useContext(AuthContext);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -22,11 +30,14 @@ const Firstdetail = () => {
   const locations = ["Madurai", "Sivakasi", "Salem", "Trichy", "Chennai", "Coimbatore", "Delhi", "Lucknow"];
 
   const handleSearch = () => {
+<<<<<<< HEAD
     if (!isAuthenticated) {
       setIsLoginModalOpen(true);
       return;
     }
 
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
     if (!source.trim()) return alert("Please enter your location");
     if (!destination.trim()) return alert("Please enter destination");
 
@@ -137,6 +148,7 @@ const Firstdetail = () => {
         <img src={search} alt="search" />
         <span>Search Ambulance</span>
       </button>
+<<<<<<< HEAD
 
       {/* Login Modal */}
       <LoginModal 
@@ -144,6 +156,8 @@ const Firstdetail = () => {
         onClose={() => setIsLoginModalOpen(false)} 
         onLoginSuccess={handleSearch}
       />
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
     </div>
   );
 };

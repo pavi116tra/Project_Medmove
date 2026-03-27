@@ -5,11 +5,19 @@
 
 .home-1 {
     width: 100%;
+<<<<<<< HEAD
     height: 100vh;
     position: relative;
     background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../../../Assest/model-hospital.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+=======
+    height: calc(100vh - 80px); /* Adjust based on navbar height */
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../Assest/model-hospital.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
     background-position: center;
     display: flex;
     align-items: center;

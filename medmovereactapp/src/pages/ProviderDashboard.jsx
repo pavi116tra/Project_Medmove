@@ -115,8 +115,13 @@ const ProviderDashboard = () => {
       <nav className="dashboard-nav">
         <div className="nav-logo">🚑 MedMove</div>
         <div className="nav-user">
+<<<<<<< HEAD
           <span>Welcome, <strong>{provider?.company_name || 'Aarthi Ambulance'}</strong></span>
           <button onClick={() => { logout(); navigate('/'); }} className="logout-btn">Logout</button>
+=======
+          <span>Welcome, <strong>{provider?.company_name || 'Provider'}</strong></span>
+          <button onClick={logout} className="logout-btn">Logout</button>
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
         </div>
       </nav>
 
@@ -236,6 +241,7 @@ const ProviderDashboard = () => {
           )}
         </div>
       </main>
+<<<<<<< HEAD
 
       {/* BOTTOM DECORATION SVG */}
       <svg className="bottom-decoration" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -251,6 +257,8 @@ const ProviderDashboard = () => {
         <path d="M140 10H160M150 0V20" stroke="#a5d8ff" strokeWidth="4" strokeLinecap="round"/>
         <path d="M0 148H400" stroke="#a5d8ff" strokeWidth="4"/>
       </svg>
+=======
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
     </div>
   );
 };

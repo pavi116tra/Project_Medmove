@@ -35,7 +35,11 @@
 }
 
 .nav-link {
+<<<<<<< HEAD
     color: #5B9ECC;
+=======
+    color: #333;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
     font-size: 18px;
     font-weight: 500;
     font-family: "Poppins", sans-serif;
@@ -45,7 +49,11 @@
 }
 
 .nav-link:hover {
+<<<<<<< HEAD
     color: #1E3A8A;
+=======
+    color: #ff4d4d;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 /* Dropdown Styles */
@@ -71,6 +79,7 @@
 
 .dropdown-item {
     padding: 12px 20px;
+<<<<<<< HEAD
     color: #5B9ECC;
     text-decoration: none;
     font-size: 16px;
@@ -81,6 +90,18 @@
 .dropdown-item:hover {
     background: #f0f7ff;
     color: #1E3A8A;
+=======
+    color: #444;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    transition: background 0.3s;
+}
+
+.dropdown-item:hover {
+    background: #fdf2f2;
+    color: #ff4d4d;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 /* Mobile Menu Icon */

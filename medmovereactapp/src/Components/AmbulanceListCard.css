@@ -1,4 +1,5 @@
 .ambulance-card {
+<<<<<<< HEAD
   background: #ffffff;
   border-radius: 16px;
   border: 1px solid #f0f0f0;
@@ -11,27 +12,57 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+=======
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+}
+
+.card-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 0.8rem;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .vehicle-info {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   gap: 8px; /* space between icon and text */
 }
 
 .vehicle-info .icon {
   font-size: 20px;
+=======
+  gap: 0.5rem;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .vehicle-info h4 {
   margin: 0;
+<<<<<<< HEAD
   font-size: 17px;
   font-weight: 800;
   color: #111111;
+=======
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .status-badge {
   padding: 4px 12px;
+<<<<<<< HEAD
   border-radius: 50px;
   font-size: 11px;
   font-weight: 700;
@@ -132,10 +163,53 @@
   gap: 10px;
   border-top: 1px solid #f5f5f5;
   padding-top: 16px;
+=======
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-badge.available { background: #e8f5e9; color: #2e7d32; }
+.status-badge.booked { background: #fff3e0; color: #ef6c00; }
+.status-badge.on_trip { background: #e3f2fd; color: #1565c0; }
+.status-badge.maintenance { background: #ffebee; color: #c62828; }
+
+.card-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+
+.detail-item {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.price {
+  color: #b71c1c;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.edit-btn, .delete-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .edit-btn {
   background: #f5f5f5;
+<<<<<<< HEAD
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
@@ -173,3 +247,16 @@
 .delete-btn:hover {
   background: #ffe8e8;
 }
+=======
+  color: #333;
+}
+
+.edit-btn:hover { background: #e0e0e0; }
+
+.delete-btn {
+  background: #fff5f5;
+  color: #c62828;
+}
+
+.delete-btn:hover { background: #ffebee; }
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c

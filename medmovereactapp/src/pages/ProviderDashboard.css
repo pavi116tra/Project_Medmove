@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body, .dashboard-wrapper {
   background-color: #e8f4fb;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Crect width='56' height='100' fill='%23ddeef8'/%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0-2l26-15V18L28 2 2 18v31L28 64z' fill='%23c8e0f0' fill-opacity='0.4'/%3E%3C/svg%3E");
@@ -24,11 +25,36 @@ body, .dashboard-wrapper {
   font-size: 20px;
   font-weight: 800;
   color: #C8102E;
+=======
+.dashboard-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-nav {
+  background: white;
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #b71c1c;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .nav-user {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   gap: 16px;
 }
 
@@ -56,10 +82,30 @@ body, .dashboard-wrapper {
 
 .logout-btn:hover {
   background: #f5f5f5;
+=======
+  gap: 1.5rem;
+}
+
+.logout-btn {
+  background: #f5f5f5;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background: #ffebee;
+  color: #c62828;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .dashboard-main {
   max-width: 1200px;
+<<<<<<< HEAD
   margin: 0 auto;
   position: relative;
   z-index: 1; /* keep above bottom decoration */
@@ -106,10 +152,61 @@ body, .dashboard-wrapper {
 }
 
 /* MY AMBULANCES HEADER */
+=======
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+.tab-menu {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.tab-menu button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.tab-menu button.active {
+  color: #b71c1c;
+}
+
+.tab-menu button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.6rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #b71c1c;
+  border-radius: 2px;
+}
+
+.badge {
+  background: #b71c1c;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  margin-left: 5px;
+}
+
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
   margin: 24px 32px 16px;
   padding: 0;
 }
@@ -148,11 +245,33 @@ body, .dashboard-wrapper {
 }
 
 /* MISC / UTILS for other sections */
+=======
+  margin-bottom: 1.5rem;
+}
+
+.add-btn {
+  background: linear-gradient(45deg, #b71c1c, #d32f2f);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(183, 28, 28, 0.3);
+  transition: transform 0.3s;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 .loading, .empty {
   text-align: center;
   padding: 3rem;
   color: #666;
   font-style: italic;
+<<<<<<< HEAD
   margin: 0 32px;
 }
 
@@ -172,17 +291,31 @@ body, .dashboard-wrapper {
 
 .earnings-section {
   margin: 24px 32px 32px;
+=======
+}
+
+.ambulance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .earnings-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+<<<<<<< HEAD
   gap: 16px;
   margin-bottom: 24px;
+=======
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 }
 
 .earn-card {
   background: white;
+<<<<<<< HEAD
   padding: 20px 24px;
   border-radius: 16px;
   display: flex;
@@ -193,6 +326,19 @@ body, .dashboard-wrapper {
 
 .earn-card span { color: #888; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
 .earn-card strong { font-size: 28px; font-weight: 800; color: #111; }
+=======
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-top: 4px solid #b71c1c;
+}
+
+.earn-card span { color: #666; font-size: 0.9rem; font-weight: 500; }
+.earn-card strong { font-size: 1.8rem; color: #b71c1c; }
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
 
 .earnings-table {
   width: 100%;
@@ -200,6 +346,7 @@ body, .dashboard-wrapper {
   border-radius: 16px;
   border-collapse: collapse;
   overflow: hidden;
+<<<<<<< HEAD
   box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 }
 
@@ -271,3 +418,32 @@ body, .dashboard-wrapper {
     margin-right: 16px;
   }
 }
+=======
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.earnings-table th, .earnings-table td {
+  padding: 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.earnings-table th {
+  background: #f8f9fa;
+  color: #666;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-pill.confirmed { background: #fff3cd; color: #856404; }
+.status-pill.completed { background: #d1e7dd; color: #0f5132; }
+>>>>>>> 9b0bb0f6bead8cfb6eccdda495159ed02750951c
