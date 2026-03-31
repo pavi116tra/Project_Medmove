@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import './Auth.css';
+import './UserLogin.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const UserLogin = () => {
     const [formData, setFormData] = useState({ phone: '', password: '' });
@@ -28,41 +29,113 @@ const UserLogin = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="form-card">
-                <h2 style={{textAlign: 'center', marginBottom: '10px'}}>Welcome Back!</h2>
-                <p style={{textAlign: 'center', color: '#666', marginBottom: '30px'}}>Login as Patient</p>
+        <div className="user-login-page">
 
-                {error && <div style={{color: '#CC0000', marginBottom: '20px', padding: '10px', background: '#FFEEEE', borderRadius: '6px', fontSize: '14px'}}>{error}</div>}
+            {/* ── Top Logo ── */}
+            <div className="ul-logo">
+                <div className="ul-logo-row">
+                    <img src={medmoveimg} alt="MedMove" style={{ height: '46px', objectFit: 'contain' }} />
+                </div>
+                <span className="ul-tagline">Patient Portal</span>
+            </div>
+
+            {/* ── Card ── */}
+            <div className="user-login-card">
+
+                {/* Header badge */}
+                <div className="ul-badge">👤 Patient Login</div>
+                <h2 className="ul-card-title">Welcome Back!</h2>
+                <p className="ul-card-subtitle">
+                    Login to book and track your ambulance in seconds.
+                </p>
+
+                {/* Error alert */}
+                {error && <div className="ul-error">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Phone Number *</label>
-                        <input name="phone" type="text" className="form-control" placeholder="Enter phone" required value={formData.phone} onChange={handleChange} />
+
+                    {/* Phone */}
+                    <div className="ul-field">
+                        <label className="ul-label" htmlFor="phone">
+                            Phone Number <span className="required">*</span>
+                        </label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            className="ul-input"
+                            placeholder="+91 XXXXX XXXXX"
+                            required
+                            value={formData.phone}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <div className="form-group">
-                        <label>Password *</label>
-                        <input name="password" type={showPassword ? "text" : "password"} className="form-control" placeholder="Enter password" required value={formData.password} onChange={handleChange} />
-                        <span className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? "👁️" : "🙈"}
-                        </span>
+                    {/* Password */}
+                    <div className="ul-field">
+                        <label className="ul-label" htmlFor="password">
+                            Password <span className="required">*</span>
+                        </label>
+                        <div className="ul-password-wrapper">
+                            <input
+                                id="password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                className="ul-input"
+                                placeholder="Enter your password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            <span
+                                className="ul-eye"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? '👁️' : '🙈'}
+                            </span>
+                        </div>
                     </div>
 
-                    <p style={{textAlign: 'right', fontSize: '14px', marginBottom: '20px'}}>
-                        <Link to="/forgot-password" style={{color: '#CC0000'}}>Forgot Password?</Link>
-                    </p>
+                    {/* Forgot Password */}
+                    <Link to="/forgot-password" className="ul-forgot">
+                        Forgot Password?
+                    </Link>
 
-                    <button type="submit" className="auth-btn">Login</button>
-                    
-                    <div style={{marginTop: '30px', textAlign: 'center', fontSize: '14px'}}>
-                        Don't have an account? <Link to="/register/user" style={{color: '#CC0000', fontWeight: 'bold'}}>Register</Link>
+                    {/* Submit */}
+                    <button type="submit" className="user-login-btn">
+                        Login →
+                    </button>
+
+                    {/* Divider */}
+                    <div className="ul-divider">
+                        <span className="ul-divider-line" />
+                        <span className="ul-divider-text">OR</span>
+                        <span className="ul-divider-line" />
                     </div>
-                    <div style={{marginTop: '10px', textAlign: 'center', fontSize: '14px'}}>
-                        Login as <Link to="/login/provider" style={{color: '#CC0000'}}>Provider instead?</Link>
+
+                    {/* Footer links — routing unchanged */}
+                    <div className="ul-footer-row">
+                        Don't have an account?{' '}
+                        <Link to="/register/user">Register</Link>
                     </div>
+                    <div className="ul-footer-row">
+                        Login as{' '}
+                        <Link to="/login/provider">Provider instead?</Link>
+                    </div>
+
                 </form>
             </div>
+
+            {/* ── Trust Badges ── */}
+            <div className="ul-trust-badges">
+                <span className="ul-trust-badge">🔒 Secure Login</span>
+                <span className="ul-trust-badge">🚑 60s Booking</span>
+                <span className="ul-trust-badge">📍 Live Tracking</span>
+            </div>
+
+            {/* ── Bottom Decoration ── */}
+            <div className="ul-bottom-art" />
+
         </div>
     );
 };

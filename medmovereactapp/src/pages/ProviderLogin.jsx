@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import './Auth.css';
+import './ProviderLogin.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const ProviderLogin = () => {
     const [formData, setFormData] = useState({ phone: '', password: '' });
@@ -34,37 +35,102 @@ const ProviderLogin = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="form-card">
-                <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Login as Ambulance Provider</h2>
+        <div className="login-page">
+            {/* ── Logo ── */}
+            <div className="login-logo">
+                <img src={medmoveimg} alt="MedMove" style={{ height: '48px', objectFit: 'contain' }} />
+            </div>
+            <p className="login-tagline">Provider Portal</p>
 
-                {error && <div style={{color: '#CC0000', marginBottom: '20px', padding: '10px', background: '#FFEEEE', borderRadius: '6px', fontSize: '14px'}}>{error}</div>}
-                {warning && <div style={{color: '#856404', marginBottom: '20px', padding: '15px', background: '#FFF3CD', border: '1px solid #FFEEBA', borderRadius: '6px', fontSize: '14px'}}>⚠️ {warning}</div>}
+            {/* ── Card ── */}
+            <div className="login-card">
+                {/* Card header */}
+                <div className="provider-badge">🚑 Ambulance Provider</div>
+                <h2 className="card-title">Login as Provider</h2>
+                <p className="card-subtitle">
+                    Access your provider dashboard to manage ambulances and bookings.
+                </p>
+
+                {/* Alerts */}
+                {error   && <div className="login-error">{error}</div>}
+                {warning && <div className="login-warning">⚠️ {warning}</div>}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Registered Phone Number *</label>
-                        <input name="phone" type="text" className="form-control" placeholder="Enter phone" required value={formData.phone} onChange={handleChange} />
+                    {/* Phone */}
+                    <div className="field-group">
+                        <label className="field-label" htmlFor="phone">
+                            Registered Phone Number <span className="required">*</span>
+                        </label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="text"
+                            className="field-input"
+                            placeholder="Enter phone"
+                            required
+                            value={formData.phone}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <div className="form-group">
-                        <label>Password *</label>
-                        <input name="password" type={showPassword ? "text" : "password"} className="form-control" placeholder="Enter password" required value={formData.password} onChange={handleChange} />
-                        <span className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? "👁️" : "🙈"}
-                        </span>
+                    {/* Password */}
+                    <div className="field-group">
+                        <label className="field-label" htmlFor="password">
+                            Password <span className="required">*</span>
+                        </label>
+                        <div className="password-field-wrapper">
+                            <input
+                                id="password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                className="field-input"
+                                placeholder="Enter password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            <span
+                                className="password-eye"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? '👁️' : '🙈'}
+                            </span>
+                        </div>
                     </div>
 
-                    <button type="submit" className="auth-btn">Login as Provider</button>
-                    
-                    <div style={{marginTop: '30px', textAlign: 'center', fontSize: '14px'}}>
-                        New provider? <Link to="/register/provider" style={{color: '#CC0000', fontWeight: 'bold'}}>Register here</Link>
+                    {/* Submit */}
+                    <button type="submit" className="login-btn">
+                        Login as Provider →
+                    </button>
+
+                    {/* Divider */}
+                    <div className="divider">
+                        <span className="divider-line" />
+                        <span className="divider-text">OR</span>
+                        <span className="divider-line" />
                     </div>
-                    <div style={{marginTop: '10px', textAlign: 'center', fontSize: '14px'}}>
-                        Login as <Link to="/login/user" style={{color: '#CC0000'}}>User instead?</Link>
+
+                    {/* Footer links — routing unchanged */}
+                    <div className="footer-link-row">
+                        New provider?{' '}
+                        <Link to="/register/provider">Register here</Link>
+                    </div>
+                    <div className="footer-link-row">
+                        Login as{' '}
+                        <Link to="/login/user">User instead?</Link>
                     </div>
                 </form>
             </div>
+
+            {/* ── Trust Badges ── */}
+            <div className="trust-badges">
+                <span className="trust-badge">🔒 Secure Login</span>
+                <span className="trust-badge">✅ Verified Providers</span>
+                <span className="trust-badge">🛡️ OTP Protected</span>
+            </div>
+
+            {/* ── Bottom Decoration ── */}
+            <div className="bottom-art" />
         </div>
     );
 };

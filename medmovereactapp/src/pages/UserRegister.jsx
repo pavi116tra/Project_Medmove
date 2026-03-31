@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import './Auth.css';
+import './UserRegister.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const UserRegister = () => {
     const [formData, setFormData] = useState({
@@ -78,69 +79,185 @@ const UserRegister = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="form-card">
-                <h2 style={{textAlign: 'center', marginBottom: '10px'}}>Create Your Account</h2>
-                <p style={{textAlign: 'center', color: '#666', marginBottom: '30px'}}>(Patient / Family)</p>
+        <div className="user-register-page">
 
-                {error && <div style={{color: '#CC0000', marginBottom: '20px', padding: '10px', background: '#FFEEEE', borderRadius: '6px', fontSize: '14px'}}>{error}</div>}
+            {/* ── Logo ── */}
+            <div className="ur-logo">
+                <img src={medmoveimg} alt="MedMove" style={{ height: '46px', objectFit: 'contain' }} />
+            </div>
+            <p className="ur-tagline">Patient Registration</p>
+
+            {/* ── Card ── */}
+            <div className="user-register-card">
+
+                {/* Card Header */}
+                <div className="ur-badge">👤 Create Patient Account</div>
+                <h2 className="ur-title">Create Your Account</h2>
+                <p className="ur-subtitle">
+                    All fields are required to create your patient account.
+                </p>
+
+                {/* Alerts */}
+                {error && <div className="ur-error">{error}</div>}
                 {devOtp && (
-                    <div style={{color: '#856404', marginBottom: '20px', padding: '10px', background: '#FFF3CD', border: '1px solid #FFEEBA', borderRadius: '6px', fontSize: '14px', fontWeight: 'bold'}}>
-                        DEV MODE - Your OTP is: {devOtp}
+                    <div className="ur-dev-otp">
+                        DEV MODE — Your OTP is: {devOtp}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Full Name *</label>
-                        <input name="full_name" type="text" className="form-control" placeholder="Enter full name" required value={formData.full_name} onChange={handleChange} />
+
+                    {/* Full Name */}
+                    <div className="ur-field">
+                        <label className="ur-label" htmlFor="full_name">
+                            Full Name <span className="required">*</span>
+                        </label>
+                        <input
+                            id="full_name"
+                            name="full_name"
+                            type="text"
+                            className="ur-input"
+                            placeholder="Enter your full name"
+                            required
+                            value={formData.full_name}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <div className="form-group">
-                        <label>Phone Number *</label>
-                        <div className="otp-box">
-                            <input name="phone" type="text" className="form-control" placeholder="10 digits" disabled={isOtpVerified} value={formData.phone} onChange={handleChange} />
-                            {!isOtpVerified && <button type="button" className="otp-verify-btn" onClick={handleSendOtp}>{otpSent ? 'Resend' : 'Send OTP'}</button>}
+                    {/* Phone + OTP */}
+                    <div className="ur-field">
+                        <label className="ur-label" htmlFor="phone">
+                            Phone Number <span className="required">*</span>
+                        </label>
+                        <div className="ur-phone-row">
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="text"
+                                className="ur-input"
+                                placeholder="10 digits"
+                                disabled={isOtpVerified}
+                                value={formData.phone}
+                                onChange={handleChange}
+                            />
+                            {!isOtpVerified && (
+                                <button
+                                    type="button"
+                                    className={`ur-send-otp-btn${otpSent ? ' sent' : ''}`}
+                                    onClick={handleSendOtp}
+                                >
+                                    {otpSent ? 'OTP Sent ✓' : 'Send OTP'}
+                                </button>
+                            )}
+                        </div>
+
+                        {otpSent && !isOtpVerified && (
+                            <div className="ur-otp-verify-row">
+                                <input
+                                    name="otp"
+                                    className="ur-input"
+                                    placeholder="Enter 6-digit OTP"
+                                    value={formData.otp}
+                                    onChange={handleChange}
+                                />
+                                <button
+                                    type="button"
+                                    className="ur-verify-otp-btn"
+                                    onClick={handleVerifyOtp}
+                                >
+                                    Verify
+                                </button>
+                            </div>
+                        )}
+
+                        {isOtpVerified && (
+                            <p className="ur-phone-verified">✅ Phone verified</p>
+                        )}
+                    </div>
+
+                    {/* Email */}
+                    <div className="ur-field">
+                        <label className="ur-label" htmlFor="email">
+                            Email <span style={{ color: '#aab8c2', fontSize: '11px', fontWeight: 400 }}>(Optional)</span>
+                        </label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            className="ur-input"
+                            placeholder="you@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    {/* Password */}
+                    <div className="ur-field">
+                        <label className="ur-label" htmlFor="password">
+                            Password <span className="required">*</span>
+                        </label>
+                        <div className="ur-password-wrapper">
+                            <input
+                                id="password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                className="ur-input"
+                                placeholder="Min 8 characters"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            <span className="ur-eye" onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? '👁️' : '🙈'}
+                            </span>
                         </div>
                     </div>
 
-                    {otpSent && !isOtpVerified && (
-                    <div className="form-group">
-                        <label>Enter OTP *</label>
-                        <div className="otp-box">
-                            <input name="otp" type="text" className="form-control" placeholder="6-digit code" value={formData.otp} onChange={handleChange} />
-                            <button type="button" className="otp-verify-btn" style={{background: '#008000'}} onClick={handleVerifyOtp}>Verify OTP</button>
-                        </div>
-                    </div>
-                    )}
-
-                    {isOtpVerified && <p style={{color: 'green', fontSize: '14px', marginBottom: '15px'}}>✅ Phone verified</p>}
-
-                    <div className="form-group">
-                        <label>Email (Optional)</label>
-                        <input name="email" type="email" className="form-control" placeholder="you@example.com" value={formData.email} onChange={handleChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Password *</label>
-                        <input name="password" type={showPassword ? "text" : "password"} className="form-control" placeholder="Min 8 characters" required value={formData.password} onChange={handleChange} />
-                        <span className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? "👁️" : "🙈"}
-                        </span>
+                    {/* Confirm Password */}
+                    <div className="ur-field">
+                        <label className="ur-label" htmlFor="confirmPassword">
+                            Confirm Password <span className="required">*</span>
+                        </label>
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type={showPassword ? 'text' : 'password'}
+                            className="ur-input"
+                            placeholder="Repeat password"
+                            required
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <div className="form-group">
-                        <label>Confirm Password *</label>
-                        <input name="confirmPassword" type={showPassword ? "text" : "password"} className="form-control" placeholder="Repeat password" required value={formData.confirmPassword} onChange={handleChange} />
+                    {/* Submit */}
+                    <button type="submit" className="ur-submit-btn" disabled={!isOtpVerified}>
+                        Create Account →
+                    </button>
+
+                    {/* Divider */}
+                    <div className="ur-divider">
+                        <span className="ur-divider-line" />
+                        <span className="ur-divider-text">OR</span>
+                        <span className="ur-divider-line" />
                     </div>
 
-                    <button type="submit" className="auth-btn" disabled={!isOtpVerified}>Create Account</button>
-                    
-                    <div style={{marginTop: '30px', textAlign: 'center', fontSize: '14px'}}>
-                        Already have an account? <Link to="/login/user" style={{color: '#CC0000', fontWeight: 'bold'}}>Login</Link>
+                    {/* Footer */}
+                    <div className="ur-footer">
+                        Already have an account?{' '}
+                        <Link to="/login/user">Login</Link>
                     </div>
+
                 </form>
             </div>
+
+            {/* ── Trust Badges ── */}
+            <div className="ur-trust-badges">
+                <span className="ur-trust-badge">🔒 Secure Registration</span>
+                <span className="ur-trust-badge">🚑 Quick Booking</span>
+                <span className="ur-trust-badge">📍 OTP Protected</span>
+            </div>
+
         </div>
     );
 };

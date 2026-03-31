@@ -34,14 +34,16 @@
     border-radius: 12px;
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    gap: 12px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    padding: 20px 25px;
+    gap: 15px;
+    transition: all 0.3s ease;
+    min-height: 100px; /* Flexible height */
+    flex: 1;
 }
 
 .des-box:hover {
     border-color: #ff4d4d;
-    box-shadow: 0 4px 10px rgba(255, 77, 77, 0.1);
+    box-shadow: 0 10px 20px rgba(255, 77, 77, 0.1);
 }
 
 .des-box img {
@@ -58,10 +60,12 @@
 }
 
 .input-group label {
-    font-size: 12px;
-    color: #888;
+    font-size: 13px;
+    color: #64748b;
     font-family: "Poppins", sans-serif;
-    margin-bottom: 2px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .input-group input, 
@@ -76,30 +80,63 @@
     background: transparent;
 }
 
-/* Specific styles for Date/Time */
-.date-time-group {
-    gap: 2px;
+/* Specific styles for Date/Time Search Field */
+.date-time-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0; /* Changed from 12px 16px to 0 to fit within existing parent padding */
+  width: 100%;
 }
 
-.formatted-date {
-    font-size: 15px;
-    color: #ff4d4d;
-    font-weight: 600;
-    margin: 0;
+.date-time-top {
+  display: flex;
+  align-items: center;
+  gap: 0;
 }
 
-.inputs-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333333;
 }
 
-.date-input, .time-input {
-    font-size: 12px !important;
-    color: #666 !important;
-    border-bottom: 1px solid #ddd !important;
-    padding: 2px 0;
+.date-time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.date-input {
+  flex: 1;
+  height: 36px;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 0 10px !important;
+  font-size: 13px !important;
+  color: #111 !important;
+  outline: none;
+  background: #fff !important;
+}
+
+.time-input {
+  width: 90px;
+  height: 36px;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 0 10px !important;
+  font-size: 13px !important;
+  color: #111 !important;
+  outline: none;
+  background: #fff !important;
+}
+
+.date-input:focus,
+.time-input:focus {
+  border-color: #C8102E !important;
+  box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.08) !important;
+}
+
 
 /* Search Button */
 .search-btn {

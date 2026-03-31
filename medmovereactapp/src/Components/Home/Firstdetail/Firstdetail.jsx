@@ -88,26 +88,24 @@ const Firstdetail = () => {
 
           {/* Date and Time */}
           <div className="des-box des3">
-            <img src={calender} alt="calendar" />
-            <div className="input-group date-time-group">
-                <div className="date-display">
-                    <label>Date & Time</label>
-                    <p className="formatted-date">{formatDate(date)}</p>
-                </div>
-                <div className="inputs-row">
-                    <input
-                        type="date"
-                        value={date}
-                        className="date-input"
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-                    <input
-                        type="time"
-                        value={time}
-                        className="time-input"
-                        onChange={(e) => setTime(e.target.value)}
-                    />
-                </div>
+            <div className="date-time-field">
+              <div className="date-time-top">
+                <span className="field-label">Date & Time</span>
+              </div>
+              <div className="date-time-inputs">
+                <input
+                  type="date"
+                  className="date-input"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+                <input
+                  type="time"
+                  className="time-input"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 

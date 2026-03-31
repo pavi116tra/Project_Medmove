@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './AddAmbulance.css'; // Reusing styles
 
@@ -52,10 +52,38 @@ const EditAmbulance = () => {
     fetchAmbulance();
   }, [id, token]);
 
+  const equipmentList = [
+    'Stretcher',
+    'First Aid Kit',
+    'Oxygen Cylinder',
+    'Wheelchair Support',
+    'ECG Monitor',
+    'Ventilator'
+  ];
+
+  const allSelected = formData.equipment?.length === equipmentList.length;
+  const someSelected = formData.equipment?.length > 0 && !allSelected;
+
+  const selectAllRef = useRef(null);
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someSelected;
+    }
+  }, [someSelected]);
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setFormData({ ...formData, equipment: [...equipmentList] });
+    } else {
+      setFormData({ ...formData, equipment: [] });
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === 'checkbox') {
-      const newEquipment = checked 
+      const newEquipment = checked
         ? [...formData.equipment, value]
         : formData.equipment.filter(item => item !== value);
       setFormData({ ...formData, equipment: newEquipment });
@@ -180,11 +208,26 @@ const EditAmbulance = () => {
 
           <div className="equipment-section">
             <label>Equipment Available</label>
+
+            {/* Select All row */}
+            <label className="checkbox-label select-all-row">
+              <input
+                type="checkbox"
+                ref={selectAllRef}
+                checked={allSelected}
+                onChange={handleSelectAll}
+              />
+              Select All Equipment
+            </label>
+
+            <div className="equipment-divider" />
+
             <div className="checkbox-grid">
-              {['Stretcher', 'First Aid Kit', 'Oxygen Cylinder', 'Wheelchair Support', 'ECG Monitor', 'Ventilator'].map(item => (
+              {equipmentList.map(item => (
                 <label key={item} className="checkbox-label">
-                  <input 
-                    type="checkbox" value={item} 
+                  <input
+                    type="checkbox"
+                    value={item}
                     onChange={handleChange}
                     checked={formData.equipment?.includes(item)}
                   /> {item}

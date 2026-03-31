@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './Auth.css';
+import './ProviderRegister.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const ProviderRegister = () => {
     const [step, setStep] = useState(1);
@@ -16,7 +17,6 @@ const ProviderRegister = () => {
         address: '',
         service_area: 'Chennai',
         license_number: '',
-        license_number: ''
     });
 
     const [files, setFiles] = useState({
@@ -102,88 +102,305 @@ const ProviderRegister = () => {
         }
     };
 
+    /* ── Success Screen ── */
     if (success) {
         return (
-            <div className="auth-container">
-                <div className="form-card" style={{textAlign: 'center'}}>
-                    <div style={{fontSize: '60px', color: '#008000', marginBottom: '20px'}}>✅</div>
-                    <h2>Application Submitted!</h2>
-                    <p style={{marginTop: '20px', color: '#666', lineHeight: '1.6'}}>
-                        Your application is under review. Admin will approve within 24 hours. 
+            <div className="register-page">
+                <div className="register-logo">
+                    <img src={medmoveimg} alt="MedMove" style={{ height: '48px', objectFit: 'contain' }} />
+                </div>
+                <p className="register-tagline">Provider Registration</p>
+
+                <div className="success-card">
+                    <div className="success-icon">✅</div>
+                    <h2 className="success-title">Application Submitted!</h2>
+                    <p className="success-text">
+                        Your application is under review. Admin will approve within 24 hours.{' '}
                         You will receive an SMS notification.
                     </p>
-                    <button className="auth-btn" style={{marginTop: '30px'}} onClick={() => navigate('/login/provider')}>Go to Login</button>
+                    <button className="success-btn" onClick={() => navigate('/login/provider')}>
+                        Go to Login
+                    </button>
                 </div>
             </div>
         );
     }
 
+    /* ── Step badge / heading maps ── */
+    const badge    = step === 1 ? '🏢 Company Details'       : '📄 Upload Documents';
+    const heading  = step === 1 ? 'Tell us about your company' : 'Upload your documents';
+    const subtext  = step === 1
+        ? 'All fields are required to create your provider account.'
+        : 'Upload clear scans or photos of your documents for verification.';
+
     return (
-        <div className="auth-container">
-            <div className="form-card">
-                <div className="step-wizard">
-                    <div className={`step-item ${step >= 1 ? 'active' : ''}`}>
-                        <div className="step-dot">1</div>
-                        Company
+        <div className="register-page">
+            {/* ── Logo ── */}
+            <div className="register-logo">
+                <img src={medmoveimg} alt="MedMove" style={{ height: '48px', objectFit: 'contain' }} />
+            </div>
+            <p className="register-tagline">Provider Registration</p>
+
+            {/* ── Card ── */}
+            <div className="register-card">
+
+                {/* Step Progress Bar */}
+                <div className="stepper">
+                    <div className="step-wrapper">
+                        <div className={`step-circle ${step >= 1 ? 'active' : 'inactive'}`}>1</div>
+                        <span className={`step-label ${step >= 1 ? 'active' : 'inactive'}`}>Company</span>
                     </div>
-                    <div className={`step-item ${step >= 2 ? 'active' : ''}`}>
-                        <div className="step-dot">2</div>
-                        Documents
+
+                    <div className="step-connector" />
+
+                    <div className="step-wrapper">
+                        <div className={`step-circle ${step >= 2 ? 'active' : 'inactive'}`}>2</div>
+                        <span className={`step-label ${step >= 2 ? 'active' : 'inactive'}`}>Documents</span>
                     </div>
                 </div>
 
-                <h3 style={{marginBottom: '20px', textAlign: 'center'}}>Step {step} of 2</h3>
+                {/* Card Header */}
+                <div className="reg-badge">{badge}</div>
+                <h2 className="reg-title">{heading}</h2>
+                <p className="reg-subtitle">{subtext}</p>
 
-                {error && <div style={{color: '#CC0000', marginBottom: '20px', padding: '10px', background: '#FFEEEE', borderRadius: '6px'}}>{error}</div>}
+                {/* Alerts */}
+                {error  && <div className="reg-error">{error}</div>}
                 {devOtp && (
-                    <div style={{color: '#856404', marginBottom: '20px', padding: '10px', background: '#FFF3CD', border: '1px solid #FFEEBA', borderRadius: '6px', fontSize: '14px', fontWeight: 'bold', textAlign: 'center'}}>
-                        DEV MODE - Your OTP is: {devOtp}
+                    <div className="reg-dev-otp">
+                        DEV MODE — Your OTP is: {devOtp}
                     </div>
                 )}
 
+                {/* ── Step 1 ── */}
                 {step === 1 && (
                     <>
-                        <div className="form-group"><label>Company Name *</label><input name="company_name" className="form-control" onChange={handleChange} value={formData.company_name} required /></div>
-                        <div className="form-group"><label>Owner Name *</label><input name="owner_name" className="form-control" onChange={handleChange} value={formData.owner_name} required /></div>
-                        <div className="form-group">
-                            <label>Phone Number *</label>
-                            <div className="otp-box">
-                                <input name="phone" className="form-control" disabled={isOtpVerified} onChange={handleChange} value={formData.phone} required />
-                                {!isOtpVerified && <button type="button" className="otp-verify-btn" onClick={handleSendOtp}>{otpSent ? 'Resend' : 'Send OTP'}</button>}
-                            </div>
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="company_name">
+                                Company Name <span className="required">*</span>
+                            </label>
+                            <input
+                                id="company_name"
+                                name="company_name"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.company_name}
+                                required
+                            />
                         </div>
-                        {otpSent && !isOtpVerified && (
-                            <div className="form-group"><div className="otp-box"><input name="otp" className="form-control" placeholder="6-digit" onChange={handleChange} value={formData.otp} /><button type="button" className="otp-verify-btn" style={{background: 'green'}} onClick={handleVerifyOtp}>Verify</button></div></div>
-                        )}
-                        {isOtpVerified && <p style={{color: 'green', fontSize: '13px'}}>✅ Phone verified</p>}
-                        <div className="form-group"><label>Email *</label><input name="email" type="email" className="form-control" onChange={handleChange} value={formData.email} required /></div>
-                        <div className="form-group"><label>Password *</label><input name="password" type="password" className="form-control" onChange={handleChange} value={formData.password} required /></div>
-                        <div className="form-group"><label>Confirm Password *</label><input name="confirmPassword" type="password" className="form-control" onChange={handleChange} value={formData.confirmPassword} required /></div>
-                        <button type="button" className="auth-btn" onClick={nextStep}>Next Step →</button>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="owner_name">
+                                Owner Name <span className="required">*</span>
+                            </label>
+                            <input
+                                id="owner_name"
+                                name="owner_name"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.owner_name}
+                                required
+                            />
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="phone">
+                                Phone Number <span className="required">*</span>
+                            </label>
+                            <div className="phone-row">
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    className="reg-input"
+                                    disabled={isOtpVerified}
+                                    onChange={handleChange}
+                                    value={formData.phone}
+                                    required
+                                />
+                                {!isOtpVerified && (
+                                    <button
+                                        type="button"
+                                        className={`send-otp-btn${otpSent ? ' sent' : ''}`}
+                                        onClick={handleSendOtp}
+                                    >
+                                        {otpSent ? 'OTP Sent ✓' : 'Send OTP'}
+                                    </button>
+                                )}
+                            </div>
+
+                            {otpSent && !isOtpVerified && (
+                                <div className="otp-verify-row">
+                                    <input
+                                        name="otp"
+                                        className="reg-input"
+                                        placeholder="Enter OTP"
+                                        onChange={handleChange}
+                                        value={formData.otp}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="verify-otp-btn"
+                                        onClick={handleVerifyOtp}
+                                    >
+                                        Verify
+                                    </button>
+                                </div>
+                            )}
+
+                            {isOtpVerified && (
+                                <p className="phone-verified">✅ Phone verified</p>
+                            )}
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="email">
+                                Email <span className="required">*</span>
+                            </label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.email}
+                                required
+                            />
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="password">
+                                Password <span className="required">*</span>
+                            </label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.password}
+                                required
+                            />
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="confirmPassword">
+                                Confirm Password <span className="required">*</span>
+                            </label>
+                            <input
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                type="password"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.confirmPassword}
+                                required
+                            />
+                        </div>
+
+                        <button type="button" className="next-btn" onClick={nextStep}>
+                            Next Step →
+                        </button>
                     </>
                 )}
 
+                {/* ── Step 2 ── */}
                 {step === 2 && (
                     <>
-                        <div className="form-group"><label>Full Address *</label><input name="address" className="form-control" onChange={handleChange} value={formData.address} required /></div>
-                        <div className="form-group">
-                            <label>Service Area (District) *</label>
-                            <select name="service_area" className="form-control" onChange={handleChange} value={formData.service_area}>
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="address">
+                                Full Address <span className="required">*</span>
+                            </label>
+                            <input
+                                id="address"
+                                name="address"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.address}
+                                required
+                            />
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="service_area">
+                                Service Area (District) <span className="required">*</span>
+                            </label>
+                            <select
+                                id="service_area"
+                                name="service_area"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.service_area}
+                            >
                                 <option value="Chennai">Chennai</option>
                                 <option value="Coimbatore">Coimbatore</option>
                                 <option value="Madurai">Madurai</option>
                                 <option value="Salem">Salem</option>
                             </select>
                         </div>
-                        <div className="form-group"><label>License Number *</label><input name="license_number" className="form-control" onChange={handleChange} value={formData.license_number} required /></div>
-                        <div className="form-group"><label>Upload License Document *</label><input name="license_doc" type="file" className="form-control" onChange={handleFileChange} required /></div>
-                        <div className="form-group"><label>Upload ID Proof *</label><input name="id_proof" type="file" className="form-control" onChange={handleFileChange} required /></div>
-                        <div style={{display: 'flex', gap: '15px'}}>
-                            <button type="button" className="auth-btn" style={{background: '#333'}} onClick={prevStep}>← Back</button>
-                            <button type="button" className="auth-btn" onClick={handleSubmit}>Submit Application</button>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="license_number">
+                                License Number <span className="required">*</span>
+                            </label>
+                            <input
+                                id="license_number"
+                                name="license_number"
+                                className="reg-input"
+                                onChange={handleChange}
+                                value={formData.license_number}
+                                required
+                            />
                         </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="license_doc">
+                                Upload License Document <span className="required">*</span>
+                            </label>
+                            <input
+                                id="license_doc"
+                                name="license_doc"
+                                type="file"
+                                className="reg-input"
+                                onChange={handleFileChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="reg-field">
+                            <label className="reg-label" htmlFor="id_proof">
+                                Upload ID Proof <span className="required">*</span>
+                            </label>
+                            <input
+                                id="id_proof"
+                                name="id_proof"
+                                type="file"
+                                className="reg-input"
+                                onChange={handleFileChange}
+                                required
+                            />
+                        </div>
+
+                        <button type="button" className="back-btn" onClick={prevStep}>
+                            ← Back
+                        </button>
+                        <button type="button" className="next-btn" onClick={handleSubmit}>
+                            Complete Registration →
+                        </button>
                     </>
                 )}
+
+                {/* Footer link */}
+                <div className="reg-footer">
+                    Already registered?{' '}
+                    <Link to="/login/provider">Login here</Link>
+                </div>
+            </div>
+
+            {/* ── Trust Badges ── */}
+            <div className="trust-badges">
+                <span className="trust-badge">🔒 Secure Registration</span>
+                <span className="trust-badge">✅ Verified Providers Only</span>
+                <span className="trust-badge">🛡️ OTP Protected</span>
             </div>
         </div>
     );

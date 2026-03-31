@@ -5,6 +5,7 @@ import DashboardStats from '../Components/DashboardStats';
 import AmbulanceListCard from '../Components/AmbulanceListCard';
 import BookingRequestCard from '../Components/BookingRequestCard';
 import './ProviderDashboard.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const ProviderDashboard = () => {
   const { provider, logout } = useContext(AuthContext);
@@ -113,7 +114,9 @@ const ProviderDashboard = () => {
   return (
     <div className="dashboard-wrapper">
       <nav className="dashboard-nav">
-        <div className="nav-logo">🚑 MedMove</div>
+        <div className="nav-logo">
+          <img src={medmoveimg} alt="MedMove" style={{ height: '42px', objectFit: 'contain' }} />
+        </div>
         <div className="nav-user">
           <span>Welcome, <strong>{provider?.company_name || 'Aarthi Ambulance'}</strong></span>
           <button onClick={() => { logout(); navigate('/'); }} className="logout-btn">Logout</button>

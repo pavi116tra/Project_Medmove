@@ -155,42 +155,47 @@
     color: #c82333;
 }
 
-/* Auth Buttons */
+/* Auth Buttons — Single shared class, 100% identical */
 .auth-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
 }
 
-.login-btn, .register-btn {
-    padding: 10px 24px;
+.nav-auth-btn {
+    padding: 10px 26px;
+    min-width: 110px;
     border-radius: 50px;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
     text-decoration: none;
-    transition: all 0.3s;
+    letter-spacing: 0.3px;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    background: #1a6fc4;
+    color: #ffffff;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(26, 111, 196, 0.35);
+    white-space: nowrap;
+    cursor: pointer;
 }
 
-.login-btn {
-    color: #5B9ECC;
-    border: 1.5px solid #5B9ECC;
+.nav-auth-btn:hover {
+    background: #155ba0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 111, 196, 0.45);
+    color: #ffffff;
 }
 
-.login-btn:hover {
-    background: #5B9ECC;
-    color: #fff;
+.nav-auth-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(26, 111, 196, 0.3);
 }
 
-.register-btn {
-    background: #5B9ECC;
-    color: #fff;
-    border: 1.5px solid #5B9ECC;
-}
 
-.register-btn:hover {
-    background: #1E3A8A;
-    border-color: #1E3A8A;
-}
 
 /* Mobile Toggle */
 .mobile-menu-icon {
@@ -241,10 +246,11 @@
         gap: 10px;
     }
 
-    .login-btn, .register-btn {
+    .nav-auth-btn {
         width: 100%;
         text-align: center;
     }
+
 
     .user-profile-section {
         margin: 15px 0;

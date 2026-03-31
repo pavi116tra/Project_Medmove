@@ -1,34 +1,56 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
+import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const RoleSelectLogin = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="auth-container">
-            <h1 style={{fontSize: '32px', fontWeight: '800'}}>Welcome Back</h1>
-            <p style={{color: '#666', marginTop: '10px'}}>How do you want to login?</p>
+        <div className="auth-page-wrapper">
 
-            <div className="auth-card-container">
-                <div className="role-card" onClick={() => navigate('/login/user')}>
-                    <div className="role-icon">🧑⚕️</div>
-                    <div className="role-title">Login as User</div>
-                    <p className="role-desc">Access your dashboard to book and track ambulances.</p>
-                    <button className="auth-btn">Login</button>
-                </div>
-
-                <div className="role-card" onClick={() => navigate('/login/provider')}>
-                    <div className="role-icon">🚑</div>
-                    <div className="role-title">Login as Provider</div>
-                    <p className="role-desc">Manage your fleet and respond to booking requests.</p>
-                    <button className="auth-btn">Login</button>
-                </div>
+            {/* Logo */}
+            <div className="auth-logo">
+                <img src={medmoveimg} alt="MedMove" />
             </div>
 
-            <p style={{marginTop: '30px', color: '#444'}}>
-                Don't have an account? <Link to="/register" style={{color: '#CC0000', fontWeight: '600'}}>Register</Link>
+            {/* Heading */}
+            <div className="auth-heading-block">
+                <h1>Welcome Back</h1>
+                <p>How do you want to login?</p>
+            </div>
+
+            {/* Cards */}
+            <div className="auth-card-container">
+
+                {/* Patient Card */}
+                <div className="role-card" onClick={() => navigate('/login/user')}>
+                    <div className="role-icon-bubble">👤</div>
+                    <div className="role-title">Login as Patient</div>
+                    <p className="role-desc">
+                        Access your dashboard to book and track ambulances in real time.
+                    </p>
+                    <button className="auth-btn">Patient Login</button>
+                </div>
+
+                {/* Provider Card */}
+                <div className="role-card" onClick={() => navigate('/login/provider')}>
+                    <div className="role-icon-bubble">🚑</div>
+                    <div className="role-title">Login as Provider</div>
+                    <p className="role-desc">
+                        Manage your fleet and respond to incoming booking requests.
+                    </p>
+                    <button className="auth-btn">Provider Login</button>
+                </div>
+
+            </div>
+
+            {/* Footer */}
+            <p className="auth-footer-link">
+                Don't have an account?
+                <Link to="/register">Register here</Link>
             </p>
+
         </div>
     );
 };

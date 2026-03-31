@@ -65,8 +65,8 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="auth-buttons">
-              <Link to="/login" className="login-btn" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-              <Link to="/register" className="register-btn" onClick={() => setIsMobileMenuOpen(false)}>Register</Link>
+              <Link to="/login" className="nav-auth-btn" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+              <Link to="/register" className="nav-auth-btn" onClick={() => setIsMobileMenuOpen(false)}>Register</Link>
             </div>
           )}
         </div>

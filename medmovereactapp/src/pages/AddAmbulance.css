@@ -165,3 +165,24 @@
   text-align: center;
   font-weight: 600;
 }
+
+/* ── Select All Equipment — modifier on top of .checkbox-label ── */
+.select-all-row {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.equipment-divider {
+  height: 1px;
+  background: #e8eef2;
+  margin-bottom: 14px;
+}
+
+/* Updated checkbox accent colour for individual items */
+.checkbox-label input[type="checkbox"] {
+  accent-color: #C8102E;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
