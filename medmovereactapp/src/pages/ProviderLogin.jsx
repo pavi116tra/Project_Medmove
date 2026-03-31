@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import './ProviderLogin.css';
 import medmoveimg from '../Assest/medmove_new_logo.svg';
+import API_BASE from '../config/api';
 
 const ProviderLogin = () => {
     const [formData, setFormData] = useState({ phone: '', password: '' });
@@ -22,7 +23,7 @@ const ProviderLogin = () => {
         setError('');
         setWarning('');
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login-provider', formData);
+            const res = await axios.post(`${API_BASE}/api/auth/login-provider`, formData);
             login(res.data);
             navigate('/provider/dashboard');
         } catch (err) {

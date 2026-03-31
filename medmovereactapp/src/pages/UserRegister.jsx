@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import './UserRegister.css';
 import medmoveimg from '../Assest/medmove_new_logo.svg';
+import API_BASE from '../config/api';
 
 const UserRegister = () => {
     const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const UserRegister = () => {
             return;
         }
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/send-otp', { phone: formData.phone });
+            const res = await axios.post(`${API_BASE}/api/auth/send-otp`, { phone: formData.phone });
             setOtpSent(true);
             if (res.data.dev_otp) {
                 setDevOtp(res.data.dev_otp);
@@ -47,7 +48,7 @@ const UserRegister = () => {
 
     const handleVerifyOtp = async () => {
         try {
-            await axios.post('http://localhost:5000/api/auth/verify-otp', { phone: formData.phone, otp: formData.otp });
+            await axios.post(`${API_BASE}/api/auth/verify-otp`, { phone: formData.phone, otp: formData.otp });
             setIsOtpVerified(true);
             setError('');
         } catch (err) {
@@ -70,7 +71,7 @@ const UserRegister = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/register-user', formData);
+            const res = await axios.post(`${API_BASE}/api/auth/register-user`, formData);
             login(res.data);
             navigate('/');
         } catch (err) {

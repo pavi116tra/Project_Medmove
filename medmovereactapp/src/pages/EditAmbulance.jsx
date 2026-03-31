@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './AddAmbulance.css'; // Reusing styles
+import API_BASE from '../config/api';
 
 const EditAmbulance = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const EditAmbulance = () => {
 
     const fetchAmbulance = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/provider/ambulances`, {
+        const res = await fetch(`${API_BASE}/api/provider/ambulances`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -110,7 +111,7 @@ const EditAmbulance = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/provider/ambulances/${id}`, {
+      const res = await fetch(`${API_BASE}/api/provider/ambulances/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

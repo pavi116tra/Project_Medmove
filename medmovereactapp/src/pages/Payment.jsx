@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { QRCodeSVG } from 'qrcode.react';
 import './Payment.css';
+import API_BASE from '../config/api';
 
 const Payment = () => {
   const location = useLocation();
@@ -51,14 +52,14 @@ const Payment = () => {
       };
 
       const bookingRes = await axios.post(
-        'http://localhost:5000/api/bookings/create',
+        `${API_BASE}/api/bookings/create`,
         bookingData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (bookingRes.data.success) {
         await axios.post(
-          'http://localhost:5000/api/bookings/send-receipt',
+          `${API_BASE}/api/bookings/send-receipt`,
           { booking_id: bookingRes.data.booking.id },
           { headers: { Authorization: `Bearer ${token}` } }
         );

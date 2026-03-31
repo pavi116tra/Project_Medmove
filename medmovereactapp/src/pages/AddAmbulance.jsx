@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddAmbulance.css';
+import API_BASE from '../config/api';
 
 const AddAmbulance = () => {
   const [formData, setFormData] = useState({
@@ -59,7 +60,7 @@ const AddAmbulance = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/provider/ambulances/add', {
+      const res = await fetch(`${API_BASE}/api/provider/ambulances/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

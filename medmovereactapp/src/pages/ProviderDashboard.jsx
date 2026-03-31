@@ -6,6 +6,7 @@ import AmbulanceListCard from '../Components/AmbulanceListCard';
 import BookingRequestCard from '../Components/BookingRequestCard';
 import './ProviderDashboard.css';
 import medmoveimg from '../Assest/medmove_new_logo.svg';
+import API_BASE from '../config/api';
 
 const ProviderDashboard = () => {
   const { provider, logout } = useContext(AuthContext);
@@ -24,19 +25,19 @@ const ProviderDashboard = () => {
       setLoading(true);
       const headers = { 'Authorization': `Bearer ${token}` };
       
-      const statsRes = await fetch('http://localhost:5000/api/provider/dashboard-stats', { headers });
+      const statsRes = await fetch(`${API_BASE}/api/provider/dashboard-stats`, { headers });
       const statsData = await statsRes.json();
       if (statsData.success) setStats(statsData.stats);
 
-      const ambRes = await fetch('http://localhost:5000/api/provider/ambulances', { headers });
+      const ambRes = await fetch(`${API_BASE}/api/provider/ambulances`, { headers });
       const ambData = await ambRes.json();
       if (ambData.success) setAmbulances(ambData.ambulances);
 
-      const bookRes = await fetch('http://localhost:5000/api/provider/bookings', { headers });
+      const bookRes = await fetch(`${API_BASE}/api/provider/bookings`, { headers });
       const bookData = await bookRes.json();
       if (bookData.success) setBookings(bookData.bookings);
 
-      const earnRes = await fetch('http://localhost:5000/api/provider/earnings', { headers });
+      const earnRes = await fetch(`${API_BASE}/api/provider/earnings`, { headers });
       const earnData = await earnRes.json();
       if (earnData.success) setEarnings(earnData.earnings);
 
@@ -58,7 +59,7 @@ const ProviderDashboard = () => {
 
   const handleAcceptBooking = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/provider/bookings/${id}/accept`, {
+      const res = await fetch(`${API_BASE}/api/provider/bookings/${id}/accept`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -71,7 +72,7 @@ const ProviderDashboard = () => {
 
   const handleRejectBooking = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/provider/bookings/${id}/reject`, {
+      const res = await fetch(`${API_BASE}/api/provider/bookings/${id}/reject`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -84,7 +85,7 @@ const ProviderDashboard = () => {
 
   const handleCompleteBooking = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/provider/bookings/${id}/complete`, {
+      const res = await fetch(`${API_BASE}/api/provider/bookings/${id}/complete`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -98,7 +99,7 @@ const ProviderDashboard = () => {
   const handleDeleteAmbulance = async (id) => {
     if (!window.confirm('Are you sure you want to remove this ambulance?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/provider/ambulances/${id}`, {
+      const res = await fetch(`${API_BASE}/api/provider/ambulances/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

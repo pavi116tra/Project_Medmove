@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import './UserLogin.css';
+import API_BASE from '../config/api';
 import medmoveimg from '../Assest/medmove_new_logo.svg';
 
 const UserLogin = () => {
@@ -20,7 +21,7 @@ const UserLogin = () => {
         e.preventDefault();
         setError('');
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login-user', formData);
+            const res = await axios.post(`${API_BASE}/api/auth/login-user`, formData);
             login(res.data);
             navigate('/');
         } catch (err) {

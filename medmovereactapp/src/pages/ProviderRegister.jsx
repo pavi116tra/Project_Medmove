@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './ProviderRegister.css';
 import medmoveimg from '../Assest/medmove_new_logo.svg';
+import API_BASE from '../config/api';
 
 const ProviderRegister = () => {
     const [step, setStep] = useState(1);
@@ -45,7 +46,7 @@ const ProviderRegister = () => {
             return;
         }
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/send-otp', { phone: formData.phone });
+            const res = await axios.post(`${API_BASE}/api/auth/send-otp`, { phone: formData.phone });
             setOtpSent(true);
             if (res.data.dev_otp) {
                 setDevOtp(res.data.dev_otp);
@@ -58,7 +59,7 @@ const ProviderRegister = () => {
 
     const handleVerifyOtp = async () => {
         try {
-            await axios.post('http://localhost:5000/api/auth/verify-otp', { phone: formData.phone, otp: formData.otp });
+            await axios.post(`${API_BASE}/api/auth/verify-otp`, { phone: formData.phone, otp: formData.otp });
             setIsOtpVerified(true);
             setError('');
         } catch (err) {
@@ -93,7 +94,7 @@ const ProviderRegister = () => {
         if (files.id_proof) data.append('id_proof', files.id_proof);
 
         try {
-            await axios.post('http://localhost:5000/api/auth/register-provider', data, {
+            await axios.post(`${API_BASE}/api/auth/register-provider`, data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             setSuccess(true);

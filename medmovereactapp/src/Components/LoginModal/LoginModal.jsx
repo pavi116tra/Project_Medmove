@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import './LoginModal.css';
+import API_BASE from '../../config/api';
 
 const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     const [role, setRole] = useState(null); // 'user', 'provider', or null (for selection)
@@ -28,8 +29,8 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
         setLoading(true);
         try {
             const endpoint = role === 'user' 
-                ? 'http://localhost:5000/api/auth/login-user' 
-                : 'http://localhost:5000/api/auth/login-provider';
+                ? `${API_BASE}/api/auth/login-user` 
+                : `${API_BASE}/api/auth/login-provider`;
             
             const res = await axios.post(endpoint, formData);
             login(res.data);
