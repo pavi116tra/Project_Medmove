@@ -1,22 +1,35 @@
-const axios = require('axios');
+const twilio = require('twilio');
 require('dotenv').config();
 
-// Mock OTP utility for development
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
+
+let client;
+if (accountSid && authToken) {
+    client = twilio(accountSid, authToken);
+}
+
 const sendOTP = async (phone, otp) => {
-    console.log(`[MOCK OTP] Sending ${otp} to ${phone}`);
-    
-    // In production, integrate with MSG91 or Fast2SMS
-    /*
-    const response = await axios.post('https://api.msg91.com/api/v5/otp', {
-        template_id: 'your_template_id',
-        mobile: `91${phone}`,
-        authkey: process.env.OTP_SERVICE_API_KEY,
-        otp: otp
-    });
-    return response.data;
-    */
-    
-    return { success: true, message: 'OTP sent successfully (Mock)' };
+    // If Twilio credentials are missing, we log to console (Dev Mode/Fallback)
+    if (!client || !twilioNumber) {
+        console.log(`[DEV MODE] OTP for ${phone}: ${otp}`);
+        return { success: true, message: 'OTP sent successfully (Mock)' };
+    }
+
+    try {
+        const message = await client.messages.create({
+            body: `Your MedMove verification code is: ${otp}. It will expire in 10 minutes.`,
+            from: twilioNumber,
+            to: `+91${phone}` // Assuming India prefix, fallback to +91
+        });
+        console.log(`[OTP SENT] SID: ${message.sid}`);
+        return { success: true, message: 'OTP sent successfully via Twilio' };
+    } catch (err) {
+        console.error('Twilio Send Error:', err);
+        // We throw so the controller handles it with a 500 status
+        throw new Error('Failed to send SMS via Twilio');
+    }
 };
 
 const generateOTP = () => {

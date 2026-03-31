@@ -13,7 +13,7 @@ const generateAuthTokens = (id, role) => {
 // @desc    Send OTP to phone
 exports.sendOTP = async (req, res) => {
     const { phone } = req.body;
-    if (!phone) return res.status(400).json({ message: 'Phone number is required' });
+    if (!phone) return res.status(400).json({ success: false, message: 'Phone number is required' });
 
     try {
         const otp = generateOTP();
@@ -26,21 +26,23 @@ exports.sendOTP = async (req, res) => {
             expires_at 
         });
 
-        await sendOTP(phone, otp);
+        const result = await sendOTP(phone, otp);
         res.status(200).json({ 
             success: true, 
-            message: 'OTP sent successfully',
+            message: result.message,
             dev_otp: process.env.NODE_ENV !== 'production' ? otp : undefined 
         });
     } catch (err) {
         console.error('Send OTP Error:', err);
-        res.status(500).json({ message: 'Error sending OTP' });
+        res.status(500).json({ success: false, message: 'Failed to send OTP. Please try again later.' });
     }
 };
 
 // @desc    Verify OTP
 exports.verifyOTP = async (req, res) => {
     const { phone, otp } = req.body;
+    if (!phone || !otp) return res.status(400).json({ success: false, message: 'Phone and OTP are required' });
+
     try {
         const log = await OTPLog.findOne({
             where: { phone, otp_code: otp, status: 'sent' },
@@ -48,29 +50,31 @@ exports.verifyOTP = async (req, res) => {
         });
 
         if (!log || new Date() > log.expires_at) {
-            return res.status(400).json({ message: 'Invalid or expired OTP' });
+            return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
         }
 
         await log.update({ status: 'verified' });
-        res.status(200).json({ success: true, message: 'OTP verified' });
+        res.status(200).json({ success: true, message: 'OTP verified successfully' });
     } catch (err) {
         console.error('Verify OTP Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Verification failed. Server error.' });
     }
 };
 
 // @desc    Register a new patient
 exports.registerUser = async (req, res) => {
     const { full_name, phone, email, password } = req.body;
+    if (!full_name || !phone || !password) return res.status(400).json({ success: false, message: 'Required fields missing' });
+
     try {
         let user = await User.findOne({ where: { phone } });
-        if (user) return res.status(400).json({ message: 'Phone number already registered' });
+        if (user) return res.status(400).json({ success: false, message: 'Phone number already registered' });
 
         const verifiedLog = await OTPLog.findOne({
             where: { phone, status: 'verified' },
             order: [['updatedAt', 'DESC']]
         });
-        if (!verifiedLog) return res.status(400).json({ message: 'Phone number not verified' });
+        if (!verifiedLog) return res.status(400).json({ success: false, message: 'Phone number not verified via OTP' });
 
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
@@ -92,31 +96,34 @@ exports.registerUser = async (req, res) => {
         });
     } catch (err) {
         console.error('Register User Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Registration failed due to server error.' });
     }
 };
 
 // @desc    Login patient
 exports.loginUser = async (req, res) => {
     const { phone, password } = req.body;
+    if (!phone || !password) return res.status(400).json({ success: false, message: 'Phone and password required' });
+
     try {
         const user = await User.findOne({ where: { phone } });
-        if (!user) return res.status(404).json({ message: 'No account found. Please register.' });
+        if (!user) return res.status(404).json({ success: false, message: 'No account found with this phone number.' });
 
         const isMatch = await bcrypt.compare(password, user.password_hash);
-        if (!isMatch) return res.status(400).json({ message: 'Incorrect password. Try again.' });
+        if (!isMatch) return res.status(400).json({ success: false, message: 'Incorrect password.' });
 
-        if (!user.is_verified) return res.status(400).json({ message: 'Please verify your phone number.' });
+        if (!user.is_verified) return res.status(403).json({ success: false, message: 'Please verify your phone number first.' });
 
         const { accessToken, refreshToken } = generateAuthTokens(user.id, 'user');
         res.json({
+            success: true,
             accessToken,
             refreshToken,
             user: { id: user.id, full_name: user.full_name, phone: user.phone, role: 'user' }
         });
     } catch (err) {
         console.error('Login User Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Login failed. Please try again.' });
     }
 };
 
@@ -128,14 +135,16 @@ exports.registerProvider = async (req, res) => {
             address, service_area, license_number
         } = req.body;
 
+        if (!company_name || !phone || !password) return res.status(400).json({ success: false, message: 'Basic provider info missing' });
+
         const providerExists = await Provider.findOne({ where: { phone } });
-        if (providerExists) return res.status(400).json({ message: 'Phone number already registered' });
+        if (providerExists) return res.status(400).json({ success: false, message: 'Phone number already registered' });
 
         const verifiedLog = await OTPLog.findOne({
             where: { phone, status: 'verified' },
             order: [['updatedAt', 'DESC']]
         });
-        if (!verifiedLog) return res.status(400).json({ message: 'Phone number not verified' });
+        if (!verifiedLog) return res.status(400).json({ success: false, message: 'OTP verification required for registration.' });
 
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
@@ -157,32 +166,36 @@ exports.registerProvider = async (req, res) => {
             is_approved: false
         });
 
-        res.status(201).json({ success: true, message: 'Provider registration submitted for review.' });
+        res.status(201).json({ success: true, message: 'Registration submitted successfully. Pending admin review.' });
     } catch (err) {
         console.error('Register Provider Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Registration failed. Server error.' });
     }
 };
 
 // @desc    Login provider
 exports.loginProvider = async (req, res) => {
     const { phone, password } = req.body;
+    if (!phone || !password) return res.status(400).json({ success: false, message: 'Phone and password required' });
+
     try {
         const provider = await Provider.findOne({ where: { phone } });
-        if (!provider) return res.status(404).json({ message: 'No account found. Please register as provider.' });
+        if (!provider) return res.status(404).json({ success: false, message: 'No provider account found with this phone number.' });
 
         const isMatch = await bcrypt.compare(password, provider.password_hash);
-        if (!isMatch) return res.status(400).json({ message: 'Incorrect password. Try again.' });
+        if (!isMatch) return res.status(400).json({ success: false, message: 'Incorrect password.' });
 
         if (!provider.is_approved) {
             return res.status(403).json({ 
-                message: 'Your account is pending admin approval. You\'ll receive an SMS once approved.',
+                success: false,
+                message: 'Account pending admin approval. You will receive an SMS once verified.',
                 is_approved: false 
             });
         }
 
         const { accessToken, refreshToken } = generateAuthTokens(provider.id, 'provider');
         res.json({
+            success: true,
             accessToken,
             refreshToken,
             provider: {
@@ -193,7 +206,7 @@ exports.loginProvider = async (req, res) => {
             }
         });
     } catch (err) {
-        console.error('Login Provider Error Details:', err);
-        res.status(500).json({ message: err.message || 'Server error' });
+        console.error('Login Provider Error:', err);
+        res.status(500).json({ success: false, message: 'Server error during login.' });
     }
 };

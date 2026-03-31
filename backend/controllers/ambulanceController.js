@@ -134,6 +134,6 @@ exports.searchAmbulances = async (req, res) => {
 
   } catch (error) {
     console.error('❌ Search Error:', error);
-    res.status(500).json({ success: false, message: 'Search failed', error: error.message });
+    res.status(500).json({ success: false, message: 'Ambulance search failed. Please try again later.' });
   }
 };

@@ -9,7 +9,7 @@ exports.getAmbulances = async (req, res) => {
         res.json({ success: true, ambulances });
     } catch (err) {
         console.error('Get Ambulances Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while fetching ambulances' });
     }
 };
 
@@ -22,7 +22,7 @@ exports.addAmbulance = async (req, res) => {
 
     try {
         const existing = await Ambulance.findOne({ where: { vehicle_number } });
-        if (existing) return res.status(400).json({ message: 'Vehicle number already exists' });
+        if (existing) return res.status(400).json({ success: false, message: 'Vehicle number already exists' });
 
     // Save to database
     const ambulance = await Ambulance.create({
@@ -45,7 +45,7 @@ exports.addAmbulance = async (req, res) => {
     });
     } catch (err) {
         console.error('Add Ambulance Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while adding ambulance' });
     }
 };
 
@@ -57,13 +57,13 @@ exports.editAmbulance = async (req, res) => {
             where: { id, provider_id: req.user.id }
         });
 
-        if (!ambulance) return res.status(404).json({ message: 'Ambulance not found' });
+        if (!ambulance) return res.status(404).json({ success: false, message: 'Ambulance not found' });
 
         await ambulance.update(req.body);
         res.json({ success: true, message: 'Ambulance updated successfully', ambulance });
     } catch (err) {
         console.error('Edit Ambulance Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while updating ambulance' });
     }
 };
 
@@ -75,15 +75,16 @@ exports.deleteAmbulance = async (req, res) => {
             where: { id, provider_id: req.user.id }
         });
 
-        if (!ambulance) return res.status(404).json({ message: 'Ambulance not found' });
+        if (!ambulance) return res.status(404).json({ success: false, message: 'Ambulance not found' });
 
         await ambulance.destroy();
         res.json({ success: true, message: 'Ambulance removed' });
     } catch (err) {
         console.error('Delete Ambulance Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while deleting ambulance' });
     }
 };
+// ... rest of file updated similarly in memory or next chunk
 
 // @desc    Get dashboard stats
 exports.getDashboardStats = async (req, res) => {
@@ -119,7 +120,7 @@ exports.getDashboardStats = async (req, res) => {
         });
     } catch (err) {
         console.error('Dashboard Stats Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while fetching stats' });
     }
 };
 
@@ -141,7 +142,7 @@ exports.getBookings = async (req, res) => {
         res.json({ success: true, bookings });
     } catch (err) {
         console.error('Get Bookings Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while fetching bookings' });
     }
 };
 
@@ -152,7 +153,7 @@ exports.acceptBooking = async (req, res) => {
             where: { id: req.params.id, provider_id: req.user.id }
         });
 
-        if (!booking) return res.status(404).json({ message: 'Booking not found' });
+        if (!booking) return res.status(404).json({ success: false, message: 'Booking not found' });
 
         await booking.update({ status: 'confirmed' });
         
@@ -165,7 +166,7 @@ exports.acceptBooking = async (req, res) => {
         res.json({ success: true, message: 'Booking accepted' });
     } catch (err) {
         console.error('Accept Booking Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while accepting booking' });
     }
 };
 
@@ -176,13 +177,13 @@ exports.rejectBooking = async (req, res) => {
             where: { id: req.params.id, provider_id: req.user.id }
         });
 
-        if (!booking) return res.status(404).json({ message: 'Booking not found' });
+        if (!booking) return res.status(404).json({ success: false, message: 'Booking not found' });
 
         await booking.update({ status: 'rejected' });
         res.json({ success: true, message: 'Booking rejected' });
     } catch (err) {
         console.error('Reject Booking Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while rejecting booking' });
     }
 };
 
@@ -218,7 +219,7 @@ exports.completeTrip = async (req, res) => {
         res.json({ success: true, message: 'Trip marked as completed' });
     } catch (err) {
         console.error('Complete Trip Error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error while completing trip' });
     }
 };
 
